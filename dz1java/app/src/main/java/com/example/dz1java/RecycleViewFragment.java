@@ -22,8 +22,7 @@ import static android.provider.Contacts.SettingsColumns.KEY;
 public class RecycleViewFragment extends Fragment {
 
     public MainActivity mainActivity;
-    //public Integer upperBound = 5;
-    NumDataSource dataSource;// = new NumDataSource();
+    NumDataSource dataSource;
 
 
     @Override
@@ -47,13 +46,6 @@ public class RecycleViewFragment extends Fragment {
         } else {
             gridCount = 4;
         }
-
-
-
-            //dataSource.generateData(upperBound);
-
-
-
 
         final RecyclerView recyclerView = getView().findViewById(R.id.list_view);
         recyclerView.setLayoutManager(new GridLayoutManager(mainActivity, gridCount));

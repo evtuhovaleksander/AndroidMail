@@ -8,9 +8,9 @@ import android.os.Bundle;
 
 
 public class MainActivity extends AppCompatActivity implements NumListDelegate {
-    public String DATA_KEY = "isVertical";
-    public String RECYCLE_FRAGMENT_TAG = "recycle_fragmentTag";
-    public String ITEM_FRAGMENT_TAG = "item_fragmentTag";
+    public  final String DATA_KEY = "upperBound";
+    private final String RECYCLE_FRAGMENT_TAG = "recycle_fragmentTag";
+    private final String ITEM_FRAGMENT_TAG = "item_fragmentTag";
     RecycleViewFragment recycleViewFragment;
     Integer upperBound = 5;
     NumDataSource dataSource = new NumDataSource();
@@ -18,17 +18,7 @@ public class MainActivity extends AppCompatActivity implements NumListDelegate {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        int gridCount = 1;
-        if (isVerticalScreenOrientation()) {
-            setContentView(R.layout.activity_main);
-            gridCount = 3;
-        } else {
-            setContentView(R.layout.activity_main);
-            gridCount = 4;
-        }
-
-
+        setContentView(R.layout.activity_main);
         recycleViewFragment = new RecycleViewFragment();
         if (savedInstanceState != null) {
             upperBound = savedInstanceState.getInt(DATA_KEY, 5);
