@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">dz1java</string>
+    <string name="add_new_num">Add new Num</string>
+    <string name="back_item_frag">Назад</string>
+</resources>
