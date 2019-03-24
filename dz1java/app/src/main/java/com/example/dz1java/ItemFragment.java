@@ -14,6 +14,15 @@ public class ItemFragment extends Fragment {
 
     public Integer curVal = 0;
     private Button fragment_button;
+    private String STORED_NUM = "storedNum";
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            curVal = savedInstanceState.getInt(STORED_NUM, 0);
+        }
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -23,6 +32,7 @@ public class ItemFragment extends Fragment {
 
     @Override
     public void onStart() {
+
         fragment_button = getView().findViewById(R.id.item_fragment_button);
         fragment_button.setText(curVal.toString());
         if(curVal % 2 == 0) {
@@ -31,5 +41,11 @@ public class ItemFragment extends Fragment {
             fragment_button.setBackgroundColor(Color.BLUE);
         }
         super.onStart();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(STORED_NUM, curVal);
+        super.onSaveInstanceState(outState);
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements NumListDelegate {
     public  final String DATA_KEY = "upperBound";
+    private final String FRAGMENT_KEY = "fragmentKey";
     private final String RECYCLE_FRAGMENT_TAG = "recycle_fragmentTag";
     private final String ITEM_FRAGMENT_TAG = "item_fragmentTag";
     RecycleViewFragment recycleViewFragment;
@@ -26,9 +27,11 @@ public class MainActivity extends AppCompatActivity implements NumListDelegate {
         dataSource.generateData(upperBound);
         recycleViewFragment.dataSource = dataSource;
         recycleViewFragment.mainActivity = this;
-        getSupportFragmentManager().beginTransaction().
-                replace(R.id.fragment_container, recycleViewFragment, RECYCLE_FRAGMENT_TAG).
-                commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.fragment_container, recycleViewFragment, RECYCLE_FRAGMENT_TAG).
+                    commit();
+        }
     }
 
     @Override
