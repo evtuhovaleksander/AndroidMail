@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class RecycleViewFragment extends Fragment {
-
+    private  static final String DATA_KEY = "upperBound";
     NumDataSource dataSource;
     public NumListDelegate delegate;
     Integer upperBound = 5;
@@ -52,7 +52,7 @@ public class RecycleViewFragment extends Fragment {
         }
 
         if (savedInstanceState != null) {
-            upperBound = savedInstanceState.getInt(MainActivity.DATA_KEY, 5);
+            upperBound = savedInstanceState.getInt(RecycleViewFragment.DATA_KEY, 5);
         }
         dataSource.generateData(upperBound);
 
@@ -73,7 +73,7 @@ public class RecycleViewFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(MainActivity.DATA_KEY, dataSource.numArray.size());
+        outState.putInt(RecycleViewFragment.DATA_KEY, dataSource.numArray.size());
         super.onSaveInstanceState(outState);
     }
 

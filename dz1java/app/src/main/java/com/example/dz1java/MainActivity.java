@@ -8,8 +8,6 @@ import android.os.Bundle;
 
 
 public class MainActivity extends AppCompatActivity implements NumListDelegate {
-    public  static final String DATA_KEY = "upperBound";
-    private static final String FRAGMENT_KEY = "fragmentKey";
     private static final String RECYCLE_FRAGMENT_TAG = "recycle_fragmentTag";
     private static final String ITEM_FRAGMENT_TAG = "item_fragmentTag";
 
