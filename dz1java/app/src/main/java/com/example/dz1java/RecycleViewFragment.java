@@ -65,7 +65,7 @@ public class RecycleViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dataSource.addNumber();
-                recyclerView.getAdapter().notifyDataSetChanged();
+                recyclerView.getAdapter().notifyItemInserted(dataSource.numArray.size()-1);
             }
         });
         super.onActivityCreated(savedInstanceState);
