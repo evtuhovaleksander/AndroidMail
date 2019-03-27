@@ -1,5 +1,6 @@
 package com.example.dz1java;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,21 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.provider.Contacts.SettingsColumns.KEY;
-
-
 public class RecycleViewFragment extends Fragment {
 
-    public MainActivity mainActivity;
     NumDataSource dataSource;
-
+    public NumListDelegate delegate;
+    Integer upperBound = 5;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        setRetainInstance(true);
+        //setRetainInstance(true);
+        dataSource = new NumDataSource();
         super.onCreate(savedInstanceState);
     }
 
@@ -38,18 +34,31 @@ public class RecycleViewFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        if (context instanceof NumListDelegate) {
+            delegate = (NumListDelegate) context;
+        }
+        super.onAttach(context);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         int gridCount = 1;
-        if (mainActivity.isVerticalScreenOrientation()) {
+        if (delegate.isVertical()) {
             gridCount = 3;
         } else {
             gridCount = 4;
         }
 
+        if (savedInstanceState != null) {
+            upperBound = savedInstanceState.getInt(MainActivity.DATA_KEY, 5);
+        }
+        dataSource.generateData(upperBound);
+
         final RecyclerView recyclerView = getView().findViewById(R.id.list_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(mainActivity, gridCount));
-        recyclerView.setAdapter(new ListAdapter(dataSource, mainActivity));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridCount));
+        recyclerView.setAdapter(new ListAdapter(dataSource, delegate));
 
         Button addButton = getView().findViewById(R.id.add_num_but);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -59,16 +68,14 @@ public class RecycleViewFragment extends Fragment {
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
         });
-
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(mainActivity.DATA_KEY, dataSource.numArray.size());
+        outState.putInt(MainActivity.DATA_KEY, dataSource.numArray.size());
         super.onSaveInstanceState(outState);
     }
-
 
     class ListItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -110,7 +117,7 @@ public class RecycleViewFragment extends Fragment {
             listItemViewHolder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    delegate.listItemPressed(i);
+                    delegate.listItemPressed(dataSource.numArray.get(i));
                 }
             });
         }

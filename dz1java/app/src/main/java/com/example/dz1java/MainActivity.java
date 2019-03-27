@@ -8,26 +8,17 @@ import android.os.Bundle;
 
 
 public class MainActivity extends AppCompatActivity implements NumListDelegate {
-    public  final String DATA_KEY = "upperBound";
-    private final String FRAGMENT_KEY = "fragmentKey";
-    private final String RECYCLE_FRAGMENT_TAG = "recycle_fragmentTag";
-    private final String ITEM_FRAGMENT_TAG = "item_fragmentTag";
-    RecycleViewFragment recycleViewFragment;
-    Integer upperBound = 5;
-    NumDataSource dataSource = new NumDataSource();
+    public  static final String DATA_KEY = "upperBound";
+    private static final String FRAGMENT_KEY = "fragmentKey";
+    private static final String RECYCLE_FRAGMENT_TAG = "recycle_fragmentTag";
+    private static final String ITEM_FRAGMENT_TAG = "item_fragmentTag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recycleViewFragment = new RecycleViewFragment();
-        if (savedInstanceState != null) {
-            upperBound = savedInstanceState.getInt(DATA_KEY, 5);
-        }
-        dataSource.generateData(upperBound);
-        recycleViewFragment.dataSource = dataSource;
-        recycleViewFragment.mainActivity = this;
         if (savedInstanceState == null) {
+            RecycleViewFragment recycleViewFragment = new RecycleViewFragment();
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.fragment_container, recycleViewFragment, RECYCLE_FRAGMENT_TAG).
                     commit();
@@ -41,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements NumListDelegate {
 
     @Override
     public void listItemPressed(int position) {
-        //System.out.println(dataSource.numArray.get(position));
-        Integer curVal = recycleViewFragment.dataSource.numArray.get(position);
+        Integer curVal = position;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ItemFragment itemFragment = new ItemFragment();
@@ -52,13 +42,8 @@ public class MainActivity extends AppCompatActivity implements NumListDelegate {
         fragmentTransaction.commit();
     }
 
-    public Boolean isVerticalScreenOrientation(){
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-    }
-
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(DATA_KEY, recycleViewFragment.dataSource.numArray.size());
+    public Boolean isVertical() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 }
